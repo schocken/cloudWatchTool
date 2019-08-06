@@ -40,7 +40,7 @@ app.post('/api/log_groups', (req, res) => {
   console.log(server, account_name);
   res.setHeader('Content-Type', 'application/json');
   getLogGroups(server, account_name, nextToken)
-  // .then((result) => res.send(JSON.stringify({result})))
+  .then((result) => res.send(JSON.stringify({result})))
   res.send(JSON.stringify(resp));
 });
 
