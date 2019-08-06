@@ -36,13 +36,12 @@ app.post('/api/log_groups', (req, res) => {
   var server = req.body.server;
   var account_name = req.body.account;
   var nextToken = req.body.nextToken
+  var resp = server + ' ' + account_name + ' ' + nextToken;
   console.log(server, account_name);
-  res.setHeader('Content-Type', 'application/json');
-  getLogGroups(server, account_name, nextToken)
-  .then((result) => res.send(JSON.stringify({result})))
-  // .then(() => getLogStream(logGroups[0]))
-  // .then(() => console.log('logStreams', logStreams))
-  // .then(() => getEvents(logGroups[0], logStreams[0]));
+  // res.setHeader('Content-Type', 'application/json');
+  // getLogGroups(server, account_name, nextToken)
+  // .then((result) => res.send(JSON.stringify({result})))
+  res.send(JSON.stringify(resp));
 });
 
 app.post('/api/log_streams', (req, res) => {
