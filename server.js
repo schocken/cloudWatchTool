@@ -27,6 +27,11 @@ app.get('/', (req, res) => {
   res.send('Hello from Express');
 });
 
+app.post('/test', (req, res) => {
+  var test = req.body.test;
+  res.send(JSON.stringify({test}));
+})
+
 app.post('/api/log_groups', (req, res) => {
   var server = req.body.server;
   var account_name = req.body.account;
