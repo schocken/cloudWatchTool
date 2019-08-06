@@ -38,8 +38,8 @@ app.post('/api/log_groups', (req, res) => {
   var nextToken = req.body.nextToken
   var resp = server + ' ' + account_name + ' ' + nextToken;
   console.log(server, account_name);
-  // res.setHeader('Content-Type', 'application/json');
-  // getLogGroups(server, account_name, nextToken)
+  res.setHeader('Content-Type', 'application/json');
+  getLogGroups(server, account_name, nextToken)
   // .then((result) => res.send(JSON.stringify({result})))
   res.send(JSON.stringify(resp));
 });
