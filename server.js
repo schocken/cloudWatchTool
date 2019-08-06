@@ -36,11 +36,24 @@ app.post('/api/log_groups', (req, res) => {
   var server = req.body.server;
   var account_name = req.body.account;
   var nextToken = req.body.nextToken
-  var resp = server + ' ' + account_name + ' ' + nextToken;
-  console.log(server, account_name);
   res.setHeader('Content-Type', 'application/json');
-  getLogGroups(server, account_name, nextToken)
-  .then((result) => res.send(JSON.stringify({result})))
+  // getLogGroups(server, account_name, nextToken)
+  // .then((result) => res.send(JSON.stringify({result})))
+
+  var params = { 
+    logGroupNamePrefix: '/aws/lambda/' + server + '_' + account_name,
+    nextToken: nextToken
+  };
+  return cloudwatchlogs.describeLogGroups(params)
+    .promise()
+    .then((result) => res.send(JSON.stringify({result})))
+    .catch(function(e) {
+      console.log(e.message);
+    })
+
+
+
+
 });
 
 app.post('/api/log_streams', (req, res) => {
