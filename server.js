@@ -41,7 +41,6 @@ app.post('/api/log_groups', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   getLogGroups(server, account_name, nextToken)
   .then((result) => res.send(JSON.stringify({result})))
-  res.send(JSON.stringify(resp));
 });
 
 app.post('/api/log_streams', (req, res) => {
