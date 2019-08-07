@@ -1,3 +1,9 @@
+/*
+AWS CloudWatch Tool for Bold360AI
+Eyal Schocken for LogMeIn
+For more information visit https://github.com/proservices/
+*/
+
 // AWS SDK Variables
 var AWS = require('aws-sdk');
 AWS.config.update({region:'us-east-1'});
@@ -6,23 +12,10 @@ var cloudwatchlogs = new AWS.CloudWatchLogs();
 // Express Variables
 const express = require('express');
 var app = express();
-var exphbs  = require('express-handlebars');
+var cors = require('cors');
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true })); 
-// app.use(express.static(__dirname + '/public'));
-// Client-side Variables
-// var account_name = 'vladplayground';
-// var server = 'EU2-BOT1';
-
-// These will store the logs of the session
-const logGroups = [], logStreams = [], logEvents = []
-
-
-// getLogGroups().then(() => console.log('logGroups', logGroups))
-// .then(() => getLogStream(logGroups[0]))
-// .then(() => console.log('logStreams', logStreams))
-// .then(() => getEvents(logGroups[0], logStreams[0]));
-
+app.use(cors());
 app.get('/', (req, res) => {
   res.send('Hello from Express');
 });
@@ -33,27 +26,18 @@ app.post('/test', (req, res) => {
 })
 
 app.post('/api/log_groups', (req, res) => {
+  console.log('here')
   var server = req.body.server;
   var account_name = req.body.account;
   var nextToken = req.body.nextToken
   res.setHeader('Content-Type', 'application/json');
-  // getLogGroups(server, account_name, nextToken)
-  // .then((result) => res.send(JSON.stringify({result})))
 
   var params = { 
     logGroupNamePrefix: '/aws/lambda/' + server + '_' + account_name,
     nextToken: nextToken
   };
-  return cloudwatchlogs.describeLogGroups(params)
-    .promise()
-    .then((result) => res.send(JSON.stringify({result})))
-    .catch(function(e) {
-      console.log(e.message);
-    })
-
-
-
-
+  getLogGroups(server, account_name, nextToken)
+  .then((result) => res.send(JSON.stringify({result})))
 });
 
 app.post('/api/log_streams', (req, res) => {
@@ -92,16 +76,6 @@ function getLogGroups(server, account_name, nextToken) {
   };
   return cloudwatchlogs.describeLogGroups(params)
     .promise()
-    // .then(results => {
-    //   // console.log(results);
-    //   results.logGroups.forEach(group => {
-    //     logGroups.push(group.logGroupName);
-    //   })
-    //   if(results.nextToken) {
-    //     params.nextToken = results.nextToken;
-    //     getLogGroups(server, account_name);
-    //   }
-    // })
     .catch(function(e) {
       console.log(e.message);
     })
