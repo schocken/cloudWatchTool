@@ -1,7 +1,6 @@
 /*
 AWS CloudWatch Tool for Bold360AI
-Eyal Schocken for LogMeIn
-For more information visit https://github.com/proservices/
+Eyal Schocken
 */
 
 // AWS SDK Variables
